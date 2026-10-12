@@ -1,6 +1,6 @@
 # Review and release procedure
 
-WATBook follows the My Library Book Factory contract: the repository can exist and deploy while its manifest is `in-progress`; it becomes `published` only when the release and production evidence below are real and complete. A scaffold, passing syntax check, or reviewer-agent summary alone is not a release.
+WATBook follows the My Library Book Factory contract. The repository's `library-manifest.json` is the validated registration input and stays `in-progress`; My Library's catalog copy is the authoritative publication status and evidence record. The catalog copy becomes `published` only when the release and production evidence below are real and complete. Keep the release version separate from the exact Pages deployment SHA. A scaffold, passing syntax check, or reviewer-agent summary alone is not a release.
 
 ## Required release gates
 

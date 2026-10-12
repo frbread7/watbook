@@ -39,7 +39,7 @@ Open <http://localhost:8000/>. Content lives under `content/en/` and `content/ko
 
 ## Independent publication
 
-WATBook is a separate repository and deployment, using the My Library Book Factory. My Library's catalog entry is metadata only. The manifest remains `in-progress` until reviewed release, Pages deployment, chapter checks, and live checks for all six experiment anchors have been recorded. See [the release workflow](docs/RELEASE.md).
+WATBook is a separate repository and deployment, using the My Library Book Factory. This repository's `library-manifest.json` is the registration input and remains `in-progress`; My Library's catalog copy is the authoritative publication status and evidence record. My Library promotes its copy to `published` only after reviewed release, Pages deployment, chapter checks, and live checks for all six experiment anchors are recorded. See [the release workflow](docs/RELEASE.md).
 
 ## License
 
