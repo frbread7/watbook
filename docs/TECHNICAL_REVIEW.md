@@ -1,0 +1,32 @@
+# Technical review record
+
+## Review boundary
+
+This book is an independent educational publication. Review by internal Codex reviewer agents is an engineering quality check, not a claim of external semiconductor-expert certification, laboratory measurement, foundry approval, or silicon validation. Every substantive equation and simulator needs review of assumptions, units, numerical behavior, source support, and scope of inference.
+
+## Required review areas
+
+- Device characterization and the distinction between raw measurements and extraction conventions
+- WAT/PCM structure, test conditions, measurement validity, and uncertainty
+- Process-integration interpretation and limits of electrical signatures
+- Lot/wafer hierarchy and WAT-to-electrical-die-sort (EDS) inference
+- Numerical models, input boundaries, and analytical checks
+- Korean/English technical terminology and consistency
+- Educational sequencing, accessibility, mobile layout, security, licensing, CI, and Pages behavior
+- Differentiation from the existing DeviceBook, ProcessBook, TCADBook, YieldBook, TestBook, FailureBook, and PMICBook material
+
+## Findings ledger
+
+The coordinating project records each independent review round, actionable finding, severity, repair, and targeted re-review here before release. P0/P1 issues must be resolved. P2 findings should be fixed when within scope and low risk; any deferred issue must have a reason and a future location. Never mark a finding resolved without re-running the relevant check.
+
+| Review area | Reviewer/date | Finding and severity | Resolution/evidence | State |
+| --- | --- | --- | --- | --- |
+| Scope and overlap | Upstream source researcher, 2026-10-12 | Reviewed actual source chapters; confirmed WAT should focus on measurement-to-decision and avoid repeating DeviceBook TLM/device fundamentals, TestBook prober/DC methods, or YieldBook/ProcessBook generic SPC and map foundations. No P0/P1. | Scope document and chapter links retain that boundary; no TLM/SPC simulator is included. | Complete |
+| Device/WAT engineering | Independent content reviewer, 2026-10-12 | P1: excursion lesson's stated reference observation contradicted the lab's hypothesis score. P2: distinguish combined variance from standard uncertainty; add replicate index to hierarchical notation; correct TLM journal citation. Targeted follow-up reported no unresolved P0/P1/P2. | EN/KO prose now matches the score; regression test asserts a shifting stable reference ranks the test-channel hypothesis first. c05 explicitly calls the equation a variance, c06 uses replicate index `r`, and the TLM citation uses the publisher DOI/journal metadata. Final Korean/UI review confirmed the map table wording matches the rendered controls. | Complete; no unresolved P0/P1/P2 |
+| Quantitative models | Independent content reviewer, 2026-10-12 | P1: validation labels overstated self-consistency and source-link review. P2: wafer-map square corners were treated as the edge; WAT-to-EDS tests did not assert stated slopes. The targeted follow-up reported no unresolved P0/P1/P2. | Model register distinguishes analytic checks from implementation tests and explicitly records no independent numerical or external data validation. The map masks a unit circle and documents omitted die/notch/edge geometry. Tests assert within-lot slope `-2`, pooled slope `433.5/188.25`, and process decomposition. Latest run: Node models 6/6 passed. | Complete for model review; no independent silicon validation claimed |
+| Bilingual editorial/accessibility review | Independent EN/KO reviewer, 2026-10-12 | Initial P2: Korean chapter omitted scribe-lane monitor context; labels exposed English identifiers. Follow-up P2: c06 claimed per-site components not actually shown, and the map's image role hid the 29-site values from assistive technology. | Added scribe-lane context and localized labels; c06 now matches the lab. EN/KO lab disclosures provide a collapsed data table for all 29 sites and the map summary announces `n=29`; Playwright checks both languages and localized headers. Final targeted re-review confirmed terminology and accessibility consistency with no unresolved P0/P1/P2. | Complete; no unresolved P0/P1/P2 |
+| UI/accessibility/browser | Independent UI reviewer, 2026-10-12 | P2: two English chapter tables forced page-width overflow at 390 px. The final map disclosure initially expanded its intrinsic width on mobile. | Chapter tables and map data are labeled, focusable horizontal-scroll regions. Added `min-width:0` constraints and viewport checks that open the data table and verify no page overflow. Final rendered-site re-review at 390×844 and 1440×1000 in EN/KO confirmed bounded page width, scrollable 29-row table, and no browser errors. | Complete; no unresolved P0/P1/P2 |
+| Security/licensing/deployment | Independent security/licensing reviewer, 2026-10-12 | P2: chapter IDs/output paths needed containment checks before dist replacement; deployment omitted attribution/licensing material. | Strict slugs and resolved source/output path checks now run before dist replacement; a symlink sentinel regression test confirms existing output is preserved. EN/KO license pages link complete notices copied into dist. Targeted reviewer confirmed no unresolved P0/P1/P2. Latest Python suite passes 9/9. | Complete |
+| Test/deployment readiness | Independent testing/deployment reviewer, 2026-10-12 | No code, route, artifact-path, or workflow-permission P0/P1/P2 defect found. P1 release gate remains open until repository, successful Pages deployment, release evidence, and production checks exist. | Final `npm test` passed models 6/6, Python 9/9, and Playwright 24/24 across 390, 768, and 1440 px; `npm run build` generated 10 chapters in EN/KO. The map-table keyboard-scroll check also passed 9/9 focused repetitions across the three viewport projects after waiting for the browser's asynchronous scroll update. Remote CI, Pages deployment, release, and production verification remain pending until completed and independently checked. | Local checks complete; publication gate open |
+
+Final Korean and UI re-reviews of the 29-site data-table accessibility changes found no unresolved P0/P1/P2. The book remains `in-progress` until a remote repository, formal release, successful Pages deployment, and production evidence are verified. Internal reviewer-agent approval is not external professional or laboratory certification, and local passing checks are not production evidence.

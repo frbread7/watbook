@@ -1,0 +1,56 @@
+<main id="main" class="lab-intro">
+  <p class="eyebrow">합성 데이터 · 브라우저 실행 · 서버로 전송하지 않음</p>
+  <h1>인터랙티브 WAT 실험실</h1>
+  <p>각 연습은 특정 측정 의사결정을 생각하도록 만든 작고 결정론적인 모델입니다. 입력에는 단위가 표시되고 출력에는 가정이 함께 설명됩니다. 생산 시험 소프트웨어, 소자 시뮬레이터, 공정 한계, 처분 권한을 대신하지 않습니다.</p>
+  <div class="callout"><strong>모델 상태:</strong> 산술과 경계 사례를 테스트했습니다. 명시된 이상 방정식은 필요한 경우 해석식으로 확인했습니다. 실리콘이나 생산 시험 흐름에 보정·외부 검증된 모델은 없습니다. <a href="references.html#model-status">모델 검증 기록</a>을 참고하십시오.</div>
+  <div class="lab-grid">
+    <section class="lab-card" id="monitor-planner" aria-labelledby="monitor-title">
+      <p class="eyebrow">2장 · 커버리지 기록</p><h2 id="monitor-title">모니터 목적 계획기</h2>
+      <p>예시 모니터군을 선택해 이름 붙은 측정량의 커버리지를 확인하십시오. 커버리지는 공정 민감도·대표성·인증을 증명하지 않습니다.</p>
+      <fieldset><legend>예시 모니터군</legend>
+        <label><input type="checkbox" name="monitor" value="mosfet"> MOS 구조</label>
+        <label><input type="checkbox" name="monitor" value="diode"> 접합 다이오드</label>
+        <label><input type="checkbox" name="monitor" value="capacitor"> 커패시터</label>
+        <label><input type="checkbox" name="monitor" value="resistor"> 저항·콘택트 모니터</label>
+      </fieldset>
+      <button type="button" data-action="plan-monitors">측정량 커버리지 확인</button><output id="monitor-output" class="output" aria-live="polite">모니터를 하나 이상 선택하십시오.</output>
+    </section>
+    <section class="lab-card" id="extraction-lab" aria-labelledby="extract-title">
+      <p class="eyebrow">4장 · 해석적으로 확인한 교육식</p><h2 id="extract-title">문턱전압 추출 민감도</h2>
+      <p>강반전 제곱법칙 포화 예: β = 1 mA/V², V<sub>th</sub> = 0.45 V, I<sub>off</sub> = 1 nA. 두 피팅점에 결정론적 오프셋을 넣어 방법별 민감도를 확인합니다. 서브스레숄드와 V<sub>DS</sub> 의존성은 생략합니다.</p>
+      <div class="controls"><label>정전류 기준 (µA)<input id="criterion-ua" type="number" value="10" min="0.01" max="100" step="0.5"></label><label>피팅점 노이즈 (nA)<input id="fit-noise-na" type="number" value="0" min="0" max="500" step="1"></label><button type="button" data-action="extract">계산</button></div>
+      <output id="extract-output" class="output" aria-live="polite">계산 버튼을 눌러 추출 규약을 비교하십시오.</output>
+    </section>
+    <section class="lab-card" id="uncertainty-lab" aria-labelledby="uncertainty-title">
+      <p class="eyebrow">5장 · 독립성 가정의 RSS</p><h2 id="uncertainty-title">측정 불확도 예산</h2>
+      <p>독립 표준 불확도 요소를 모두 mV로 입력합니다. 제곱합 제곱근으로 결합한 뒤 명시된 포함인자 k를 적용합니다. k만으로 특정 포함 확률을 보장하지 않습니다.</p>
+      <div class="controls"><label>반복성 (mV)<input id="u-repeat" type="number" value="3" min="0" max="1000" step="0.1"></label><label>교정 (mV)<input id="u-cal" type="number" value="4" min="0" max="1000" step="0.1"></label><label>기타 (mV)<input id="u-other" type="number" value="2" min="0" max="1000" step="0.1"></label><button type="button" data-action="uncertainty">결합 계산</button></div>
+      <output id="uncertainty-output" class="output" aria-live="polite">모든 요소를 같은 단위로 입력하십시오.</output>
+    </section>
+    <section class="lab-card" id="wafer-map-lab" aria-labelledby="map-title">
+      <p class="eyebrow">6장 · 결정론적 합성 계층</p><h2 id="map-title">웨이퍼·로트와 시험 맥락 맵</h2>
+      <p>합성 모델에는 중심화한 로트·웨이퍼 효과, 이상적인 원형 영역의 방사형 교육 항, 알려진 채널 오프셋, 측정 순서 드리프트, 유계 삼각분포 노이즈가 포함됩니다. 정사각 격자에서 원 안의 점만 사용하며 다이 형상·노치·에지 제외 규칙은 포함하지 않습니다. 시드를 바꾸되 같은 웨이퍼를 비교할 수 있습니다.</p>
+      <div class="controls"><label>난수 시드<input id="map-seed" type="number" value="17" min="0" max="4294967295" step="1"></label><button type="button" data-action="map">7 × 7 모니터 맵 생성</button></div>
+      <div id="map-grid" class="map-grid" role="img" aria-label="합성 원형 7 × 7 격자 웨이퍼 파라미터 맵" aria-describedby="map-output"></div><output id="map-output" class="output" aria-live="polite">합성 수치(임의의 교육 단위)입니다.</output>
+      <details class="map-data"><summary id="map-data-summary">사이트별 생성 성분</summary><div class="table-scroll" role="region" aria-label="가로로 스크롤하는 사이트별 맵 데이터" tabindex="0"><table><caption>선택한 웨이퍼의 사이트와 생성값</caption><thead><tr><th scope="col">행</th><th scope="col">열</th><th scope="col">정규화 x</th><th scope="col">정규화 y</th><th scope="col">로트 효과</th><th scope="col">웨이퍼 효과</th><th scope="col">방사형 항</th><th scope="col">공정값</th><th scope="col">채널 오프셋</th><th scope="col">순서 드리프트</th><th scope="col">노이즈</th><th scope="col">측정값</th></tr></thead><tbody id="map-data-rows"></tbody></table></div></details>
+    </section>
+    <section class="lab-card" id="wat-eds-lab" aria-labelledby="association-title">
+      <p class="eyebrow">8장 · 로트 집계 예시</p><h2 id="association-title">WAT와 EDS 관계의 한계</h2>
+      <p>전기적 다이 선별(EDS) 쌍은 허구입니다. 로트 오프셋으로 합동 추세는 양수가 되지만 로트 내부 기울기는 음수가 됩니다. 실제 팹을 모델링하거나 수율을 예측하지 않습니다.</p>
+      <button type="button" data-action="association">합동·로트 내 기울기 계산</button><output id="association-output" class="output" aria-live="polite">4개 로트의 합성 쌍 데이터입니다.</output>
+    </section>
+    <section class="lab-card" id="diagnosis-lab" aria-labelledby="diagnosis-title">
+      <p class="eyebrow">9장 · 허구의 이상 사례</p><h2 id="diagnosis-title">증거 기반 진단</h2>
+      <p>허구의 사례에서 관측한 증거를 선택하십시오. 투명하게 계산하는 점수는 순서형 기록일 뿐 확률이나 근본 원인 판정이 아닙니다.</p>
+      <fieldset class="hypothesis-options"><legend>관측 증거</legend>
+        <label><input type="checkbox" name="evidence" value="radial"> 좌표를 확인한 뒤에도 웨이퍼 반경을 따라가는 패턴</label>
+        <label><input type="checkbox" name="evidence" value="channel"> 교차 반복 측정 후 채널을 따라가는 변화</label>
+        <label><input type="checkbox" name="evidence" value="program"> 최초 영향 로트 전 추출 프로그램 변경</label>
+        <label><input type="checkbox" name="evidence" value="reference"> 의심 채널에서 안정 기준 구조도 함께 이동</label>
+      </fieldset>
+      <button type="button" data-action="diagnose">가설 순위 보기</button><output id="diagnosis-output" class="output" aria-live="polite">가설을 선택하지 않았습니다.</output>
+    </section>
+  </div>
+  <p class="focus-note">모든 생성 데이터는 이 브라우저 탭에만 머뭅니다. 실험실은 쿠키·분석 도구·원격 API를 사용하지 않습니다.</p>
+</main>
+<script type="module" src="{{ASSET_BASE}}/js/lab.js"></script>

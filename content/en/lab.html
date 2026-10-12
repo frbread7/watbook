@@ -1,0 +1,56 @@
+<main id="main" class="lab-intro">
+  <p class="eyebrow">SYNTHETIC DATA · RUNS IN YOUR BROWSER · NO NETWORK SUBMISSION</p>
+  <h1>Interactive WAT laboratory</h1>
+  <p>Each exercise is a small, deterministic model for reasoning about a specific measurement decision. Inputs include units; outputs include assumptions. These tools are not production test software, device simulators, process limits, or a disposition authority.</p>
+  <div class="callout"><strong>Model status:</strong> the arithmetic and edge cases are tested; the stated ideal equations are analytically checked where noted. No model is calibrated or externally validated against silicon or a production test flow. See <a href="references.html#model-status">model validation notes</a>.</div>
+  <div class="lab-grid">
+    <section class="lab-card" id="monitor-planner" aria-labelledby="monitor-title">
+      <p class="eyebrow">CHAPTER 2 · COVERAGE BOOKKEEPING</p><h2 id="monitor-title">Monitor-purpose planner</h2>
+      <p>Select example monitor families to see which named measurands they cover. Coverage is not proof of process sensitivity, representativeness, or qualification.</p>
+      <fieldset><legend>Illustrative monitor families</legend>
+        <label><input type="checkbox" name="monitor" value="mosfet"> MOS structure</label>
+        <label><input type="checkbox" name="monitor" value="diode"> Junction diode</label>
+        <label><input type="checkbox" name="monitor" value="capacitor"> Capacitor</label>
+        <label><input type="checkbox" name="monitor" value="resistor"> Resistor/contact monitor</label>
+      </fieldset>
+      <button type="button" data-action="plan-monitors">Check named coverage</button><output id="monitor-output" class="output" aria-live="polite">Select one or more monitors.</output>
+    </section>
+    <section class="lab-card" id="extraction-lab" aria-labelledby="extract-title">
+      <p class="eyebrow">CHAPTER 4 · ANALYTICALLY CHECKED TOY EQUATION</p><h2 id="extract-title">Threshold extraction sensitivity</h2>
+      <p>Strong-inversion square-law saturation example: β = 1 mA/V², V<sub>th</sub> = 0.45 V, I<sub>off</sub> = 1 nA. Add deterministic offsets to two fit points to see method sensitivity. The model omits subthreshold and V<sub>DS</sub> dependence.</p>
+      <div class="controls"><label>Constant-current criterion (µA)<input id="criterion-ua" type="number" value="10" min="0.01" max="100" step="0.5"></label><label>Fit-point noise (nA)<input id="fit-noise-na" type="number" value="0" min="0" max="500" step="1"></label><button type="button" data-action="extract">Calculate</button></div>
+      <output id="extract-output" class="output" aria-live="polite">Use Calculate to compare conventions.</output>
+    </section>
+    <section class="lab-card" id="uncertainty-lab" aria-labelledby="uncertainty-title">
+      <p class="eyebrow">CHAPTER 5 · RSS UNDER INDEPENDENCE</p><h2 id="uncertainty-title">Measurement uncertainty budget</h2>
+      <p>Enter independent standard uncertainty components in millivolts. The example combines them by root-sum-square and applies the stated coverage factor k; this does not guarantee a particular coverage probability.</p>
+      <div class="controls"><label>Repeatability (mV)<input id="u-repeat" type="number" value="3" min="0" max="1000" step="0.1"></label><label>Calibration (mV)<input id="u-cal" type="number" value="4" min="0" max="1000" step="0.1"></label><label>Other (mV)<input id="u-other" type="number" value="2" min="0" max="1000" step="0.1"></label><button type="button" data-action="uncertainty">Combine</button></div>
+      <output id="uncertainty-output" class="output" aria-live="polite">Enter components in a common unit.</output>
+    </section>
+    <section class="lab-card" id="wafer-map-lab" aria-labelledby="map-title">
+      <p class="eyebrow">CHAPTER 6 · DETERMINISTIC SYNTHETIC HIERARCHY</p><h2 id="map-title">Wafer/lot and test-context map</h2>
+      <p>The generator includes centered lot and wafer effects, a radial teaching term on an ideal circular domain, known channel offsets, measurement-order drift, and bounded triangular noise. It samples the circle on a square lattice, with no die geometry, notch, or edge-exclusion rule. Choose a seed; inspect the same wafer when comparing runs.</p>
+      <div class="controls"><label>Random seed<input id="map-seed" type="number" value="17" min="0" max="4294967295" step="1"></label><button type="button" data-action="map">Generate 7 × 7 monitor map</button></div>
+      <div id="map-grid" class="map-grid" role="img" aria-label="Synthetic circular 7 by 7 lattice wafer parameter map" aria-describedby="map-output"></div><output id="map-output" class="output" aria-live="polite">Synthetic values (arbitrary teaching units).</output>
+      <details class="map-data"><summary id="map-data-summary">Per-site generated components</summary><div class="table-scroll" role="region" aria-label="Scrollable per-site map data" tabindex="0"><table><caption>Selected wafer sites and generated values</caption><thead><tr><th scope="col">Row</th><th scope="col">Column</th><th scope="col">Normalized x</th><th scope="col">Normalized y</th><th scope="col">Lot effect</th><th scope="col">Wafer effect</th><th scope="col">Radial term</th><th scope="col">Process value</th><th scope="col">Channel offset</th><th scope="col">Order drift</th><th scope="col">Noise</th><th scope="col">Measured value</th></tr></thead><tbody id="map-data-rows"></tbody></table></div></details>
+    </section>
+    <section class="lab-card" id="wat-eds-lab" aria-labelledby="association-title">
+      <p class="eyebrow">CHAPTER 8 · LOT AGGREGATION DEMONSTRATION</p><h2 id="association-title">WAT and EDS relationship limits</h2>
+      <p>Electrical die sort (EDS) pairs are fictional. Lot offsets create a positive pooled trend while within-lot variation has a negative slope. This does not model a real factory or predict yield.</p>
+      <button type="button" data-action="association">Calculate pooled and within-lot slopes</button><output id="association-output" class="output" aria-live="polite">Synthetic 4-lot paired example.</output>
+    </section>
+    <section class="lab-card" id="diagnosis-lab" aria-labelledby="diagnosis-title">
+      <p class="eyebrow">CHAPTER 9 · FICTIONAL EXCURSION</p><h2 id="diagnosis-title">Evidence-led diagnosis</h2>
+      <p>Select observations from the fictional case. The transparent score is ordinal bookkeeping, not a probability or root-cause finding.</p>
+      <fieldset class="hypothesis-options"><legend>Observed evidence</legend>
+        <label><input type="checkbox" name="evidence" value="radial"> Pattern follows wafer radius after coordinate check</label>
+        <label><input type="checkbox" name="evidence" value="channel"> Shift follows channel after an interleaved repeat</label>
+        <label><input type="checkbox" name="evidence" value="program"> Extraction program changed before first affected lot</label>
+        <label><input type="checkbox" name="evidence" value="reference"> Stable reference also shifts on the suspect channel</label>
+      </fieldset>
+      <button type="button" data-action="diagnose">Rank hypotheses</button><output id="diagnosis-output" class="output" aria-live="polite">No hypothesis is selected.</output>
+    </section>
+  </div>
+  <p class="focus-note">All generated data stay in this browser tab. No cookies, analytics, or remote APIs are used by the laboratory.</p>
+</main>
+<script type="module" src="{{ASSET_BASE}}/js/lab.js"></script>

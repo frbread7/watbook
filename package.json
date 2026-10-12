@@ -1,0 +1,16 @@
+{
+  "name": "watbook",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Bilingual Wafer Acceptance Test and Parametric Engineering textbook",
+  "scripts": {
+    "build": "python3 tools/build_site.py",
+    "test:models": "node --test tests/models.test.mjs",
+    "test:site": "python3 -m unittest discover -s tests -p 'test_*.py' -v",
+    "test:e2e": "playwright test",
+    "test": "npm run test:models && npm run test:site && npm run test:e2e"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0"
+  }
+}
