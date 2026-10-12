@@ -38,6 +38,18 @@ def read_json(path: Path):
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+def chapter_intro(path: Path) -> str:
+    source = path.read_text(encoding="utf-8")
+    match = re.search(r'<p\s+class=["\']chapter-intro["\']\s*>(.*?)</p\s*>', source, flags=re.IGNORECASE | re.DOTALL)
+    if not match:
+        raise ValueError(f"chapter is missing a localized chapter-intro paragraph: {path.relative_to(ROOT)}")
+    text = re.sub(r"<[^>]*>", " ", match.group(1))
+    summary = " ".join(html.unescape(text).split())
+    if not summary:
+        raise ValueError(f"chapter-intro paragraph must not be empty: {path.relative_to(ROOT)}")
+    return summary
+
+
 def href(base: str, target: str) -> str:
     return f"{base}/{target}" if base != "." else f"./{target}"
 
@@ -147,7 +159,10 @@ def build():
         missing = [path.relative_to(ROOT).as_posix() for path in expected + pages if not path.is_file()]
         if missing:
             raise ValueError(f"missing {language} source pages: {', '.join(missing)}")
-        sources_by_language[language] = {"home": pages[0], "lab": pages[1], "references": pages[2], "license": pages[3], "chapters": expected}
+        sources_by_language[language] = {
+            "home": pages[0], "lab": pages[1], "references": pages[2], "license": pages[3],
+            "chapters": expected, "summaries": [chapter_intro(path) for path in expected],
+        }
 
     # Resolve every chapter destination before replacing an existing build. A
     # valid slug prevents lexical traversal; this check also rejects a nested
@@ -187,7 +202,8 @@ def build():
         for row in chapters:
             chapter_url = ("chapters/" if not is_ko else "chapters/") + row["id"] + ".html"
             chapter_title = row["title"][language]
-            chapter_list.append(f'<li><a class="chapter-card" href="{chapter_url}"><span class="chapter-number">{row["number"]:02d}</span><span><strong>{html.escape(chapter_title)}</strong><small>{html.escape(row["summary"][language])}</small></span><span aria-hidden="true">↗</span></a></li>')
+            summary = sources["summaries"][len(chapter_list)]
+            chapter_list.append(f'<li><a class="chapter-card" href="{chapter_url}"><span class="chapter-number">{row["number"]:02d}</span><span><strong>{html.escape(chapter_title)}</strong><small>{html.escape(summary)}</small></span><span aria-hidden="true">↗</span></a></li>')
         home_body = home_body.replace("{{CHAPTER_LIST}}", "\n".join(chapter_list))
         home_description = manifest["description"][language]
         home_url = manifest["languageUrls"][language]
@@ -216,7 +232,7 @@ def build():
             body = re.sub(r"<th>", '<th scope="col">', body, flags=re.IGNORECASE)
             body = re.sub(r"</table\s*>", "</table></div>", body, flags=re.IGNORECASE)
             title = row["title"][language]
-            summary = row["summary"][language]
+            summary = sources["summaries"][index]
             sibling_links = []
             if index:
                 previous = chapters[index - 1]
@@ -226,7 +242,7 @@ def build():
                 sibling_links.append(f'<a rel="next" href="{following["id"]}.html"><small>{UI[language]["next"]}</small><strong>{html.escape(following["title"][language])}</strong></a>')
             chapter_shell = f'''<main id="main" class="chapter-layout">
   <aside class="chapter-rail"><a class="back-link" href="../index.html">← {UI[language]["home"]}</a><p class="eyebrow">{row["number"]:02d} / {len(chapters):02d}</p><h2>{UI[language]["contents"]}</h2><ol>{''.join(f'<li><a href="{chapter["id"]}.html"{(" aria-current=page" if chapter["id"] == row["id"] else "")}>{html.escape(chapter["title"][language])}</a></li>' for chapter in chapters)}</ol></aside>
-  <article class="chapter-content"><p class="eyebrow">WATBOOK · {row["number"]:02d}</p><h1>{html.escape(title)}</h1><p class="chapter-deck">{html.escape(summary)}</p>{body}<nav class="chapter-pager" aria-label="{UI[language]["chapters"]}">{''.join(sibling_links)}</nav></article>
+  <article class="chapter-content"><p class="eyebrow">WATBOOK · {row["number"]:02d}</p><h1>{html.escape(title)}</h1>{body}<nav class="chapter-pager" aria-label="{UI[language]["chapters"]}">{''.join(sibling_links)}</nav></article>
 </main>'''
             relative_base = ".." if not is_ko else "../.."
             canonical = manifest["productionUrl"].rstrip("/") + ("/" if is_ko else "/") + ("ko/" if is_ko else "") + f"chapters/{row['id']}.html"

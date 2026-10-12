@@ -46,10 +46,6 @@
         "en": "WAT as a measurement-to-decision chain",
         "ko": "측정에서 의사결정까지의 WAT"
       },
-      "summary": {
-        "en": "Define the question, evidence stream, sample hierarchy, and limits of a wafer-level claim.",
-        "ko": "질문·증거 흐름·표본 계층과 웨이퍼 수준 주장 범위를 정의합니다."
-      },
       "urls": {
         "en": "https://frbread7.github.io/watbook/chapters/c01-measurement-to-decision.html",
         "ko": "https://frbread7.github.io/watbook/ko/chapters/c01-measurement-to-decision.html"
@@ -66,10 +62,6 @@
       "title": {
         "en": "Monitor purpose, structures, and sampling",
         "ko": "모니터 목적·구조·표본추출"
-      },
-      "summary": {
-        "en": "Design monitor coverage and sampling around a falsifiable engineering question.",
-        "ko": "반증 가능한 엔지니어링 질문을 중심으로 모니터 커버리지와 표본을 설계합니다."
       },
       "urls": {
         "en": "https://frbread7.github.io/watbook/chapters/c02-monitor-design.html",
@@ -89,10 +81,6 @@
         "en": "The WAT measurement contract",
         "ko": "WAT 측정 계약"
       },
-      "summary": {
-        "en": "Version the conditions, instrument context, validity checks, and data lineage.",
-        "ko": "측정 조건·장비 맥락·유효성 점검·데이터 계보를 버전 관리합니다."
-      },
       "urls": {
         "en": "https://frbread7.github.io/watbook/chapters/c03-measurement-contract.html",
         "ko": "https://frbread7.github.io/watbook/ko/chapters/c03-measurement-contract.html"
@@ -110,10 +98,6 @@
       "title": {
         "en": "Extraction methods and parameter definitions",
         "ko": "추출 방법과 파라미터 정의"
-      },
-      "summary": {
-        "en": "Separate raw curves from operational definitions for junction, MOS, capacitor, and high-voltage monitors.",
-        "ko": "접합·MOS·커패시터·고전압 모니터에서 원시 곡선과 조작적 정의를 구분합니다."
       },
       "urls": {
         "en": "https://frbread7.github.io/watbook/chapters/c04-extraction-contract.html",
@@ -134,10 +118,6 @@
         "en": "Uncertainty and measurement-process validity",
         "ko": "불확도와 측정 프로세스 유효성"
       },
-      "summary": {
-        "en": "Build an uncertainty argument and distinguish measurement variation from unit variation.",
-        "ko": "불확도 근거를 구성하고 측정 변동과 소자 변동을 구분합니다."
-      },
       "urls": {
         "en": "https://frbread7.github.io/watbook/chapters/c05-uncertainty.html",
         "ko": "https://frbread7.github.io/watbook/ko/chapters/c05-uncertainty.html"
@@ -155,10 +135,6 @@
       "title": {
         "en": "Wafer maps, hierarchy, and coordinate provenance",
         "ko": "웨이퍼 맵·계층·좌표 출처"
-      },
-      "summary": {
-        "en": "Separate lot, wafer, site, spatial, and test-context effects with traceable coordinates.",
-        "ko": "추적 가능한 좌표로 로트·웨이퍼·사이트·공간·시험 맥락 효과를 구분합니다."
       },
       "urls": {
         "en": "https://frbread7.github.io/watbook/chapters/c06-wafer-lot-context.html",
@@ -178,10 +154,6 @@
         "en": "Electrical signatures and bounded hypotheses",
         "ko": "전기적 시그니처와 제한된 가설"
       },
-      "summary": {
-        "en": "Use electrical patterns to rank falsifiable hypotheses without claiming root cause.",
-        "ko": "근본 원인을 단정하지 않고 전기 패턴으로 반증 가능한 가설을 순위화합니다."
-      },
       "urls": {
         "en": "https://frbread7.github.io/watbook/chapters/c07-electrical-signatures.html",
         "ko": "https://frbread7.github.io/watbook/ko/chapters/c07-electrical-signatures.html"
@@ -198,10 +170,6 @@
       "title": {
         "en": "WAT, inline metrology, and EDS evidence",
         "ko": "WAT·인라인 계측·EDS 증거"
-      },
-      "summary": {
-        "en": "Align related populations while guarding against lot confounding and data leakage.",
-        "ko": "로트 교란과 데이터 누출을 경계하면서 관련 모집단을 정렬합니다."
       },
       "urls": {
         "en": "https://frbread7.github.io/watbook/chapters/c08-wat-to-eds.html",
@@ -221,10 +189,6 @@
         "en": "Synthetic engineering excursion",
         "ko": "합성 엔지니어링 이상 사례"
       },
-      "summary": {
-        "en": "Investigate a fictional parametric shift through an evidence ledger and discriminating tests.",
-        "ko": "증거 장부와 구분력 있는 시험으로 허구의 파라미터 이동을 조사합니다."
-      },
       "urls": {
         "en": "https://frbread7.github.io/watbook/chapters/c09-excursion-case.html",
         "ko": "https://frbread7.github.io/watbook/ko/chapters/c09-excursion-case.html"
@@ -241,10 +205,6 @@
       "title": {
         "en": "Reproducible evidence and engineering handoff",
         "ko": "재현 가능한 증거와 엔지니어링 인계"
-      },
-      "summary": {
-        "en": "Communicate conclusions, limits, and follow-up evidence in a portable review record.",
-        "ko": "검토 가능한 기록으로 결론·한계·후속 증거를 전달합니다."
       },
       "urls": {
         "en": "https://frbread7.github.io/watbook/chapters/c10-evidence-handoff.html",

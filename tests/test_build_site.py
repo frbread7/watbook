@@ -1,3 +1,4 @@
+import html
 import json
 import subprocess
 import sys
@@ -62,6 +63,7 @@ class BuildSiteTests(unittest.TestCase):
     def test_all_manifest_chapters_have_bilingual_routes(self):
         self.assertEqual(self.manifest["chapterCount"], len(self.manifest["chapters"]))
         self.assertEqual(set(self.manifest["languages"]), {"en", "ko"})
+        self.assertTrue(all("summary" not in chapter for chapter in self.manifest["chapters"]))
         for language in self.manifest["languages"]:
             prefix = DIST / ("ko/" if language == "ko" else "")
             self.assertTrue((prefix / "index.html").is_file())
@@ -71,6 +73,17 @@ class BuildSiteTests(unittest.TestCase):
                 parser = self.parse(route)
                 self.assertEqual(parser.lang, language)
                 self.assertIn(chapter["title"][language], route.read_text(encoding="utf-8"))
+
+    def test_localized_chapter_intros_drive_home_cards_and_article_decks(self):
+        for language in self.manifest["languages"]:
+            root = ROOT / "content" / language / "chapters"
+            home = (DIST / ("ko/" if language == "ko" else "") / "index.html").read_text(encoding="utf-8")
+            for chapter in self.manifest["chapters"]:
+                source = root / f"{chapter['id']}.html"
+                summary = build_site.chapter_intro(source)
+                self.assertIn(f"<small>{html.escape(summary)}</small>", home)
+                route = DIST / ("ko/" if language == "ko" else "") / "chapters" / f"{chapter['id']}.html"
+                self.assertIn(f'<p class="chapter-intro">{html.escape(summary)}</p>', route.read_text(encoding="utf-8"))
 
     def test_every_local_route_and_fragment_resolves(self):
         parsed = {page: self.parse(page) for page in self.pages}
@@ -149,14 +162,15 @@ class BuildSiteTests(unittest.TestCase):
             for language, title in (("en", "Introduction"), ("ko", "소개")):
                 chapter_dir = project_root / "content" / language / "chapters"
                 chapter_dir.mkdir(parents=True)
-                (chapter_dir / "intro.html").write_text("<p>Example</p>", encoding="utf-8")
+                summary = "Overview" if language == "en" else "개요"
+                (chapter_dir / "intro.html").write_text(f'<p class="chapter-intro">{summary}</p>', encoding="utf-8")
                 for page in ("index.html", "lab.html", "references.html", "license.html"):
                     (chapter_dir.parent / page).write_text("<main></main>", encoding="utf-8")
             manifest = {
                 "chapterCount": 1,
                 "chapters": [{"id": "intro", "number": 1,
                               "title": {"en": "Introduction", "ko": "소개"},
-                              "summary": {"en": "Overview", "ko": "개요"}}],
+                              "topics": ["example"]}],
                 "languages": ["en", "ko"],
                 "title": {"en": "WATBook", "ko": "WATBook"},
                 "description": {"en": "Teaching example", "ko": "교육 예제"},

@@ -35,7 +35,7 @@ python3 tools/build_site.py
 python3 -m http.server 8000 --directory dist
 ```
 
-Open <http://localhost:8000/>. Content lives under `content/en/` and `content/ko/`; the chapter index and My Library registration contract live in `library-manifest.json`. `tools/build_site.py` produces the static Pages artifact in `dist/`. See [CONTRIBUTING.md](CONTRIBUTING.md) for how to edit chapters and models safely.
+Open <http://localhost:8000/>. Content lives under `content/en/` and `content/ko/`; the normalized My Library chapter index lives in `library-manifest.json`, while reader-facing chapter introductions live with each language's chapter source. `tools/build_site.py` produces the static Pages artifact in `dist/`. See [CONTRIBUTING.md](CONTRIBUTING.md) for how to edit chapters and models safely.
 
 ## Independent publication
 
